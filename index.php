@@ -13,7 +13,7 @@
 		<div class ="container">
             <div class="row justify-content-center">
 	            <div class="col-10 col-md-6 col-lg-5 text-center popup">
-                    <p class="titre">Veuillez prouver votre appartenance au CESI :</p>
+                    <p class="titre">Identifiez-vous :</p>
 	                <form method = "post" action = "traitement.php">
 						<label for ="identifiant"> Identifiant : </label>
                         <input type="text" class="inputte col-6" name="identifiant" placeholder="Ex: V@lentin" id="identifiant">
