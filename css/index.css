@@ -2,12 +2,13 @@ body
 {
   max-width: 100%;
   padding-top: 1%;
-  background-color: lightgreen;
+  background-color: plum;
+
 }
 
 .body, footer
 {
-  background-color: hotpink;
+  
   border: 2px solid black;
   border-radius: 6px;
   !line-height: 40px;
@@ -20,27 +21,38 @@ body
 }
 
 
-.popup {
-    background-color: hotpink;
+.popup 
+{
+
+    background: radial-gradient(circle, white 25%, ivory 40%, lightgrey 75%, gainsboro 100%);
+    
+    border-style: solid;
+    border-radius: 75px;
+    box-shadow: 15px 10px 10px black;
+
+
 }
 
-.centered {
+.centered 
+{
     float: none;
     margin-left: auto;
     margin-right: auto;
 }
 
-p {
+p 
+{
     font-size: 25px;
 }
 
-label, input {
+label, input 
+{
     font-size: 15px;
 }
 
-input {
+input 
+{
     border-radius: 5px;
-
 }
 
 .marge
@@ -61,14 +73,43 @@ input {
 
 .inputte
 {
-	margin-left: 5%;
+	padding-right: 10%;
 
 }
-label {
-	text-align: right;
-	width: 10rem;
-
-}
-p {
+label 
+{
 	text-align: center;
+	width: 10rem;
+}
+
+p 
+{
+	text-align: center;
+}
+
+.decale
+{
+  margin-right: 3%;
+}
+
+.decalebas
+{
+  margin-bottom: 5%;
+background:    #cccccc;
+background:    -webkit-linear-gradient(#ead1dc, #cccccc 50%, #ead1dc);
+background:    linear-gradient(#ead1dc, #cccccc 50%, #ead1dc);
+border:        0px solid #000000;
+border-radius: 1000px;
+padding:       8px 20px;
+color:         #000000;
+display:       inline-block;
+font:          normal 700 15px/1 "Calibri", sans-serif;
+text-align:    center;
+text-shadow:   none;
+}
+
+input:invalid
+{
+  outline: none;
+ 
 }

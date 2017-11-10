@@ -14,15 +14,17 @@
             <div class="row justify-content-center">
 	            <div class="col-10 col-md-6 col-lg-5 text-center popup">
                     <p class="titre">Identifiez-vous :</p>
-	                <form method = "post" action = "traitement.php">
-						<label for ="identifiant"> Identifiant : </label>
-                        <input type="text" class="inputte col-6" name="identifiant" placeholder="Ex: V@lentin" id="identifiant">
+    	                <form method = "post" action = "traitement.php">
+                            
+    						<label for ="identifiant"> Identifiant : </label>
+                                <p><input type="text" class="inputte col-6 decale" name="identifiant" placeholder="Ex: V@lentin" id="identifiant" required></p>
 
-						<label for="pass"> Mot de passe : </label>
-                        <input type="password" class = "col-6 inputte" name="pass" id="pass">
+                            
+    						<label for="pass"> Mot de passe : </label>
+                                <p><input type="password" class = "col-6 inputte decale" name="pass" id="pass" required></p>
 
-						<input type="submit" name="connexion" value ="S'identifier">
-	                </form>
+    						<p><input type="submit" name="connexion" value ="S'identifier" class ="decalebas" id = "validation"><p>
+    	                </form>
                 </div>
             </div>
         </div>
