@@ -10,31 +10,7 @@
         <title>Accueil</title>
     </head>
     <body>
-        <?php include("./sql/database.php"); ?>
-
-        <?php include("./inc/header.php"); ?>
-        <?php
-            $articles = 9;
-            $res = $pdo->query('SELECT COUNT(*) AS TOTAL FROM T_ARTICLE')->fetch();
-            $total = $res['TOTAL'];
-
-            $pages = ceil($total / $articles);
-
-            $page = (isset($_GET['page']) ? intval($_GET['page']) : 1);
-            $page = min(max(1, $page), $pages);
-
-            $start = ($page - 1) * $articles;
-
-            foreach ($pdo->query('SELECT ID_ARTICLE, ID_CATEGORIE, ART_NOM, ART_PRIX, ART_DESCRIPTION, ART_ETAT, ART_IMAGE, ART_DATE FROM T_ARTICLE ORDER BY ID_ARTICLE DESC LIMIT '.$start.', '.$articles)->fetchAll() as $row) {
-                
-            }
-            //$req = $pdo->query('SELECT ID_ARTICLE, ID_CATEGORIE, ART_NOM, ART_PRIX, ART_DESCRIPTION, ART_ETAT, ART_IMAGE, ART_DATE FROM T_ARTICLE ORDER BY ID_ARTICLE');
-
-
-
-         ?>
-
-        <div class="container">
+		<div class ="container">
             <div class="row justify-content-center">
 	            <div class="co-10 col-md-6 col-lg-5 popup">
                     <p class="titre">Identifiez-vous :</p>
@@ -49,15 +25,8 @@
 	                </form>
                 </div>
             </div>
-
-
-        <div>
-            <a href="test">Test</a>
         </div>
         <?php
-            echo realpath("index.php");
-            echo crypt('kangourou', base64_encode('kangourou'));
-
             $users = array();
             foreach (file(".htpasswd") as $line) {
                 $split = explode(":", $line);
@@ -68,7 +37,7 @@
 
               ?>
 
-</div>
+
         <script src="lib/js/jquery.min.js"></script>
         <script src="lib/js/popper.min.js"></script>
         <script src="lib/js/bootstrap.min.js"></script>

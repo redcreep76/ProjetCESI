@@ -1,0 +1,11 @@
+AuthName "Page d'administration protégée"
+AuthType Basic
+AuthUserFile "C:\wamp64\www\ProjetCESI\.htpasswd"
+Require valid-user
+ErrorDocument 401 erreurs/401.html
+ErrorDocument 403 /ProjetCESI/erreurs/403.php
+ErrorDocument 404 /ProjetCESI/erreurs/404.php
+ErrorDocument 500 /erreurs/erreur_500.php
+<Files /ProjetCESI/erreurs>
+Allow from all
+</Files>
