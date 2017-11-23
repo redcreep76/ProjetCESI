@@ -30,9 +30,10 @@
 
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav pb-3 pb-lg-0">
-            <?php for ($i = 1; $i < 6; $i++) { ?>
+            <?php
+                foreach ($pdo->query('SELECT ID_CATEGORIE, CAT_LIBELLE FROM T_CATEGORIE ORDER BY ID_CATEGORIE ASC')->fetchAll() as $row) { ?>
                 <li class="nav-item">
-                    <a class="nav-link py-3 px-4" href="#">Catégorie <?php echo $i; ?></a>
+                    <a class="nav-link py-3 px-4" href="#"><?php echo $row['CAT_LIBELLE']; ?></a>
                 </li>
             <?php } ?>
         </ul>

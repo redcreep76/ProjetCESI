@@ -13,6 +13,14 @@
         <?php include("./sql/database.php"); ?>
 
         <?php include("./inc/header.php"); ?>
+
+        <div class="container" id="tab-content">
+
+            <div class="row">
+
+
+
+
         <?php
             $articles = 9;
             $res = $pdo->query('SELECT COUNT(*) AS TOTAL FROM T_ARTICLE')->fetch();
@@ -21,54 +29,33 @@
             $pages = ceil($total / $articles);
 
             $page = (isset($_GET['page']) ? intval($_GET['page']) : 1);
-            $page = min(max(1, $page), $pages);
+            $page = max(min(1, $page), $pages);
 
             $start = ($page - 1) * $articles;
 
-            foreach ($pdo->query('SELECT ID_ARTICLE, ID_CATEGORIE, ART_NOM, ART_PRIX, ART_DESCRIPTION, ART_ETAT, ART_IMAGE, ART_DATE FROM T_ARTICLE ORDER BY ID_ARTICLE DESC LIMIT '.$start.', '.$articles)->fetchAll() as $row) {
-                
-            }
+            $req = $pdo->prepare('SELECT ID_ARTICLE, ID_CATEGORIE, ART_NOM, ART_PRIX, ART_DESCRIPTION, ART_ETAT, ART_IMAGE, ART_DATE FROM T_ARTICLE ORDER BY ID_ARTICLE DESC LIMIT :start, :end');
+            $req->bindParam(":start", $start, PDO::PARAM_INT);
+            $req->bindParam(":end", $articles,  PDO::PARAM_INT);
+            $req->execute();
+
+            foreach ($req->fetchAll() as $row) { ?>
+                <div class="col-4">
+                    <article>
+                        <!-- <img  />-->
+                        <img src="assets/articles/<?php echo $row['ART_IMAGE']?>" />
+                        <h3><?php echo $row['ART_NOM']; ?><span class="pull-right"><?php echo $row['ART_PRIX']; ?> €</span></h3>
+                        <p><?php echo $row['ART_DESCRIPTION']; ?></p>
+                    </article>
+                </div>
+            <?php }
             //$req = $pdo->query('SELECT ID_ARTICLE, ID_CATEGORIE, ART_NOM, ART_PRIX, ART_DESCRIPTION, ART_ETAT, ART_IMAGE, ART_DATE FROM T_ARTICLE ORDER BY ID_ARTICLE');
 
 
 
          ?>
-
-        <div class="container">
-            <div class="row justify-content-center">
-	            <div class="co-10 col-md-6 col-lg-5 popup">
-                    <p class="titre">Identifiez-vous :</p>
-	                <form method = "post" action = "traitement.php">
-						<label class="col-6" for ="identifiant"> Identifiant : </label>
-                        <input type="text" class="col-6" name="identifiant" placeholder="Ex: V@lentin" id="identifiant">
-
-						<label for="pass"> Mot de passe : </label>
-                        <input type="password" class = "col-6 inputte" name="pass" id="pass">
-
-						<input type="submit" name="connexion" value ="S'identifier">
-	                </form>
-                </div>
-            </div>
-
-
-        <div>
-            <a href="test">Test</a>
-        </div>
-        <?php
-            echo realpath("index.php");
-            echo crypt('kangourou', base64_encode('kangourou'));
-
-            $users = array();
-            foreach (file(".htpasswd") as $line) {
-                $split = explode(":", $line);
-                $users[] = array($split[0], $split[1]);
-            }
-
-            print_r($users);
-
-              ?>
-
 </div>
+         </div>
+
         <script src="lib/js/jquery.min.js"></script>
         <script src="lib/js/popper.min.js"></script>
         <script src="lib/js/bootstrap.min.js"></script>
