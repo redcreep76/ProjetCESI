@@ -29,7 +29,7 @@
             $pages = ceil($total / $articles);
 
             $page = (isset($_GET['page']) ? intval($_GET['page']) : 1);
-            $page = max(min(1, $page), $pages);
+            $page = min(max(1, $page), $pages);
 
             $start = ($page - 1) * $articles;
 
