@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="lib/css/bootstrap.min.css">
         <link rel="stylesheet" href="lib/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/header.css">
         <link rel="stylesheet" href="css/index.css">
         <title>Accueil</title>
     </head>
@@ -59,5 +60,17 @@
         <script src="lib/js/jquery.min.js"></script>
         <script src="lib/js/popper.min.js"></script>
         <script src="lib/js/bootstrap.min.js"></script>
+
+        <script>
+            var array = $("#tab-content p");
+            for (var i = 0; i < array.length; i++) {
+                var el = array[i];
+                var text;
+                while (el.clientHeight < el.scrollHeight) {
+                    text = el.innerHTML.trim();
+                    el.innerHTML = text.replace(/\W*\s(\S)*$/, '...');
+                }
+            }
+        </script>
     </body>
 </html>
