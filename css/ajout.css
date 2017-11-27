@@ -15,32 +15,17 @@ body
 	box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
 }
 
-input.form-control {
+.form-control {
     background: #f9f9f9;
 }
 
-input.form-control:focus {
-    !box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.4);
-}
-.form-control[aria-invalid="true"] {
-    background-color: #fff;
-    border-color: #80bdff;
-    !box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.4);
-    !border-right: 0;
-    !box-shadow: -0.1rem 0.1rem 0 0.1rem rgba(255, 0, 0, 0.4), -0.1rem -0.1rem 0 0.1rem rgba(255, 0, 0, 0.4);
-    !box-shadow: 0.2rem 0 0 0 rgba(0,0,0,0), 0 0 0 0.2rem rgba(255, 0, 0, 0.4);
-    !box-shadow: 0 -6px white, 0 6px white, 7px 0 4px -3px black,  -7px 0 4px -3px black;
-    !box-shadow: -0.2rem 0 0 0 rgba(255, 0, 0, 0.4), 0.2rem 0 0 -0.2rem rgba(0, 0, 0, 0), 0 -0.2rem 0 0.2rem rgba(255, 0, 0, 0.4), 0 0.2rem 0 0 rgba(255, 0, 0, 0.4);
+.input-group {
+    border-radius: 4px;
 }
 
-.input-group[aria-invalid="true"] {
-    !background-color: #fff;
-    !border-color: #80bdff;
-    !box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.4);
-}
-
-.form-control[aria-invalid="true"] + .input-group-addon {
-    !box-shadow: 0.2rem 0 0 0 rgba(255, 0, 0, 0.4), 0 0.2rem 0 0 rgba(255, 0, 0, 0.4), 0 -0.2rem 0 0 rgba(255, 0, 0, 0.4);
+.form-control[aria-invalid="true"]:not(.input-group > .form-control[aria-invalid="true"]) {
+    border-color: #ff9b9b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
 }
 
 input {
@@ -77,58 +62,33 @@ textarea {
 }
 
 .input-group-focus {
-  border-radius:4px;
-  -webkit-transition: box-shadow ease-in-out .15s;
-          transition: box-shadow ease-in-out .15s;
+    -webkit-transition: box-shadow ease-in-out .15s;
+    transition: box-shadow ease-in-out .15s;
 }
+
 .input-group-addon {
-  -webkit-transition: border-color ease-in-out .15s;
-          transition: border-color ease-in-out .15s;
+    -webkit-transition: border-color ease-in-out .15s;
+    transition: border-color ease-in-out .15s;
 }
-.input-group.input-group-focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6) !important;
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6) !important;
+
+.input-group-focus:not(.input-group-invalid) {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
-.has-error.input-group.input-group-focus,
-.has-error .input-group.input-group-focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483 !important;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483 !important;
+.input-group.input-group-invalid {
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
 }
-.has-warning.input-group.input-group-focus,
-.has-warning .input-group.input-group-focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168 !important;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168 !important;
-}
-.has-success .input-group.input-group-focus,
-.has-success .input-group.input-group-focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b !important;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b !important;
-}
+
 .input-group-focus input:focus {
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    background: #fff;
 }
 .input-group-focus .input-group-addon {
   border-color: #66afe9 !important;
 }
-.has-error .input-group-addon {
-  border-color: #843534 !important;
-}
-.has-success .input-group-addon {
-  border-color: #2b542c !important;
-}
-.has-warning .input-group-addon {
-  border-color: #66512c !important;
-}
 
-.form-control[aria-invalid="true"] + .input-group-addon {
-  border-color: #843534 !important;
-}
-
-.has-error.input-group.input-group-focus,
-.has-error .input-group.input-group-focus {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483 !important;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483 !important;
+.input-group-invalid .input-group-addon, .input-group-invalid input {
+  border-color: #ff9b9b !important;
 }
 
 

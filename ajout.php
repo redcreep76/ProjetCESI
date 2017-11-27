@@ -33,7 +33,7 @@
                         <label class="col-3 col-form-label" for="name">Titre de l'article</label>
                         <div class="col-3">
                             <div class="input-group">
-                                <input class="form-control price" aria-required="true" pattern="^[1-9][0-9]{0,4}(\.[0-9]{1,2})?$" type="text" id="name" />
+                                <input class="form-control price" aria-required="true" pattern="^[0-9]{1,5}(\.[0-9]{1,2})?$" type="text" id="name" />
                                 <span class="input-group-addon"><i class="fa fa-eur" aria-hidden="true"></i></span>
                             </div>
                         </div>
