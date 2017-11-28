@@ -1,3 +1,4 @@
+
 <header class="container-fluid" id="header">
     <div class="row">
 
@@ -10,10 +11,25 @@
         <h1>Le bon coin du CESI</h1>
     </div>
 
+    <?php if(($_SESSION['isconnected'] == 1))
+    { ?> 
     <div class="offset-1 col-3">
-        <a href="formulaire.php"><button class="btn" id="bouton">S'enregistrer <i class="fa fa-sign-in fa-lg logo_user" aria-hidden="true"></i></button></a>
-        <a href="panier.php"><button class="btn" id="bouton">Se connecter <i class="fa fa-user fa-lg" aria-hidden="true"></i></button></a>
+        <?php echo $_SESSION['coprenom']; echo '  '.$_SESSION['conom']; ?>
+        <a href="connexion.php"><button class="btn" id="bouton">Déconnexion<i class="fa fa-user fa-lg" aria-hidden="true"></i></button></a>
     </div>
+    <?php }
+    else
+    { ?>
+
+        <div class="offset-1 col-3">
+        <a href="formulaire.php"><button class="btn" id="bouton">S''enregistrer <i class="fa fa-sign-in fa-lg logo_user" aria-hidden="true"></i></button></a>
+        <a href="connexion.php"><button class="btn" id="bouton">Se connecter <i class="fa fa-user fa-lg" aria-hidden="true"></i></button></a>
+
+    </div>
+    <?php
+    }
+    ?>
+
     <!--<div class="col-lg-6 col-lg-offset-0 col-md-5 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
         <div class="form-group input-group">
             <input type="text" class="form-control" name="search"  placeholder="Recherchez..."/>

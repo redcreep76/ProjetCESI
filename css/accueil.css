@@ -1,0 +1,19 @@
+.taille
+{
+	margin-top: 2%;
+	margin-bottom: 20%;
+	
+	padding-bottom: 4%;
+	padding-top:3%;
+	border: 3px inset cornflowerblue;
+
+	background-color: lightgrey;
+	font-weight: bold;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.lien
+{
+  color : magenta;
+}

@@ -1,0 +1,33 @@
+.taille
+{
+	margin-top: 7%;
+	margin-bottom: 20%;
+	
+	padding-bottom: 4%;
+	border: 3px inset cornflowerblue;
+
+	background-color: lightgrey;
+	font-weight: bold;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.yolo
+{
+	
+	background-color: slategrey;
+}
+
+.petit
+{
+	color:steelblue;
+	font-size: 10px;
+	text-decoration: underline;
+}
+
+.messageerreur
+{
+	font-size: 12px;
+	font-weight: bold;
+	color:red;
+}
