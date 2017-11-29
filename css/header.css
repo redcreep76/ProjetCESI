@@ -2,6 +2,7 @@
 #header {
 	background-color: #354960;
     padding: 5px 20px;
+	height: 200px;
 }
 #header img {
     !margin: 5px 20px;
@@ -31,7 +32,7 @@
 #navbar {
     background-color: #456bb7;
     border-color: #3cb0bb;
-    padding: 0 30px;
+    !padding: 0 30px;
     -webkit-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
     -moz-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
     box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
@@ -46,18 +47,36 @@
     color: #fff;
 }
 #navbar .navbar-nav {
+	!padding-top: 2px;
     !padding-bottom: 10px;
 }
 
-#navbar .navbar-nav > li > a {
-    color: #ccc;
+#navbar .navbar-nav > li {
+
+}
+
+@include media-breakpoint-down(lg) {
+  .navbar > .navbar-nav > .nav-item > .btn {
+	    border-radius: 50%;
+  }
+}
+
+#navbar .navbar-nav > li > a > .navbar-text {
+    color: #fff;
+	!padding-top: 6px;
+	box-sizing: border-box;
+	!border-bottom: 2px solid transparent;
     !border-radius: 5px;
     !padding: 12px 20px;
     !padding: 10%;
 }
-#navbar .navbar-nav > li > a:hover  {
-	background-color: #395a9c;
-    color: #fff;
+#navbar .navbar-nav > li > a:hover >.navbar-text  {
+	!background-color: #395a9c;
+    !color: #fff;
+	!outline: 2px solid white;
+	border-bottom: 2px solid white;
+	margin-bottom: -2px;
+
     !text-decoration: underline;
 }
 #navbar .navbar-toggle:hover, #navbar .navbar-toggle:focus {
