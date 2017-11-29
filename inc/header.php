@@ -23,43 +23,32 @@
 </header>
 
 
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-faded" id="navbar">
-    <a class="navbar-brand" href="#"><i class="fa fa-home fa-lg" aria-hidden="true"></i>   Accueil</a>
-    <div class="d-flex flex-row order-2 align-items-center order-lg-3">
-        <ul class="navbar-nav flex-row align-items-center mr-4 mr-lg-0">
-            <?php if((isset($_SESSION['isconnected'])) && ($_SESSION['isconnected'] == 1)) { ?>
-                <li class="nav-item">
-                    <a class="nav-link"><button class="btn btn-primary"><i class="fa fa-sign-in fa-3x logo_user" aria-hidden="true"></i></button></a>
-                </li>
-            <?php } else { ?>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <div class="d-block d-lg-none mx-2">
-                            <button class="btn btn-light text-dark rounded-circle"><i class="fa fa-user fa-lg" aria-hidden="true"></i></button>
-                        </div>
-                        <div class="d-none d-lg-block">
-                            <button class="btn btn-light text-dark"><i class="fa fa-user fa-lg mr-2" aria-hidden="true"></i>Inscription</button>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <div class="d-block d-lg-none mx-2">
-                            <button class="btn btn-light text-dark rounded-circle"><i class="fa fa-sign-in fa-lg" aria-hidden="true"></i></button>
-                        </div>
-                        <div class="d-none d-lg-block">
-                            <button class="btn btn-light text-dark"><i class="fa fa-sign-in fa-lg mr-2" aria-hidden="true"></i>Connection</button>
-                        </div>
-                    </a>
-                </li>
+<nav class="navbar justify-content-start sticky-top navbar-expand-lg navbar-light bg-faded px-lg-5" id="navbar">
 
-            <?php } ?>
-        </ul>
-        <button class="navbar-toggler py-2 px-3 my-2 border-white" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fa fa-bars fa-lg"></i>
-            <!--<span class="navbar-toggler-icon bg-white"></span>-->
 
-        </button>
+    <button class="navbar-toggler py-2 px-3 my-2 mr-4 border-white" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars fa-lg"></i>
+        <!--<span class="navbar-toggler-icon bg-white"></span>-->
+
+    </button>
+    <a class="navbar-brand justify-self-start" href="#"><i class="fa fa-home fa-lg mr-2" aria-hidden="true"></i>Accueil</a>
+
+    <div class="ml-auto d-flex flex-row order-2 align-items-center order-lg-3">
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user fa-lg mr-2" aria-hidden="true"></i>Connexion
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+              <?php if((isset($_SESSION['isconnected'])) && ($_SESSION['isconnected'] == 1)) { ?>
+                  <a class="nav-link">Connexion</a>
+              <?php } else { ?>
+                  <a class="dropdown-item" href="inscription.php">S'inscrire</a>
+                  <a class="dropdown-item" href="connexion.php">Se connecter</a>
+
+              <?php } ?>
+          </div>
+        </div>
     </div>
 
 
@@ -77,7 +66,6 @@
         </ul>
 
       </div>
-
 
 
 

@@ -1,38 +1,21 @@
 <?php
+	session_start();
 
-session_start();
+	//On envoie une requête à la base de données pour vérifier l'adresse mail et le mot de passe
+	$req = $pdo->prepare('SELECT ID_UTILISATEUR, UTI_EMAIL, UTI_MDP FROM T_UTILISATEUR WHERE UTI_EMAIL = :email AND UTI_MDP = :mdp');
+	$req->bindParam(":email", $_POST['email']);
+	$req->bindParam(":mdp", $_POST['pass']);
+	$req->execute();
 
-$emaill = $_POST['email'];
-$mdpp = $_POST['pass'];
-$compteur = 0;
-try
-{
-	$bdd = new PDO('mysql:host=localhost;dbname=projetcesi;charset=utf8','root','');
+	//On vérifie si la base de données retourne au moins un résultat
+	if ($req->rowCount() > 0) {
+		$row = $req->fetch();
+		$_SESSION['utilisateur'] = $row['ID_UTILISATEUR'];
+		$_SESSION['logged'] = time();
 
-}
-catch(Exception $e)
-{
-	die ('Erreur : '.$e->getMessage());
-}
-
-$reponse = $bdd->query ('SELECT utiemail,utipass,id_utilisateur FROM utilisateur');
-while ($donnees = $reponse->fetch())
-{
-	if ($emaill == $donnees['utiemail'] && $mdpp == $donnees['utipass'])
-	{
-		$compteur++;
-		$_SESSION['utilisateur'] = $donnees['id_utilisateur'];
+	//Sinon on affiche un message d'erreur à l'utilisateur
+	} else {
+		$_SESSION['failco'] = "L'adresse email ou le mot de passe est incorrect";
+		header('Location: connexion.php');
 	}
-}
-
-if ($compteur != 0)
-{
-	$_SESSION['isconnected'] = 1;
-	header('Location: accueil.php');
-}
-else
-{
-	$_SESSION['failco'] ="L'adresse email ou le mot de passe est incorrect";
-	header('Location: connexion.php');
-}
 ?>
