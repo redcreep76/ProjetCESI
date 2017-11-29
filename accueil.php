@@ -12,13 +12,23 @@ catch(Exception $e)
     die ('Erreur : '.$e->getMessage());
 }
 
+if(!isset($_SESSION['isconnected']))
+{
+    $_SESSION['isconnected'] = 0;
+}
+
+if ($_SESSION['isconnected'] == 1)
+{
 $id = $_SESSION['utilisateur'];
-$reponse = $bdd->query ('SELECT utiprenom,utinom,utiemail,utitelephone FROM utilisateur WHERE id_utilisateur = '.$id.'');
+$reponse = $bdd->query ('SELECT utiprenom,utinom,utiemail,utitelephone,utipass,utiimage FROM utilisateur WHERE id_utilisateur = '.$id.'');
 $utilisateur = $reponse->fetch();
 $_SESSION['coprenom'] = $utilisateur['utiprenom'];
 $_SESSION['conom'] = $utilisateur['utinom'];
 $_SESSION['coemail'] = $utilisateur['utiemail'];
 $_SESSION['cotelephone'] = $utilisateur['utitelephone'];
+$_SESSION['copass'] =$utilisateur['utipass'];
+$_SESSION['coimage'] =$utilisateur['utiimage'];
+}
 ?>
 
 
@@ -34,7 +44,7 @@ $_SESSION['cotelephone'] = $utilisateur['utitelephone'];
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/accueil.css">
 
-        <title> Le Bon Cesi - Merci </title>
+        <title> Le Bon Cesi - Accueil </title>
 	</head>
 
 	<body>
@@ -45,7 +55,7 @@ $_SESSION['cotelephone'] = $utilisateur['utitelephone'];
          ?>
         <div class="container taille col-xs-10 col-md-9 col-lg-9 text-center">
             <?php if($_SESSION['isconnected'] == 1){ ?>
-            Bienvenue sur le site d'échange du CESI <?php echo $utilisateur['utiprenom'] ?>.<br/>
+            Bienvenue sur le site d'échange du CESI, <?php echo $utilisateur['utiprenom'] ?>.<br/>
             Ce site vous permettra de mettre "en vitrine" les objets que vous voulez échangez avec d'autres personnes. <br/>
             Toutes ces personnes travaillent au CESI de Mont-Saint-Aignan. Si l'objet mis en vitrine par une autre personne vous intéresse, vous trouverez des informations pour la contacter dans son profil.<br/>
             Bonne journée.
@@ -56,7 +66,7 @@ $_SESSION['cotelephone'] = $utilisateur['utitelephone'];
              Ce site vous permettra de mettre "en vitrine" les objets que vous voulez échangez avec d'autres personnes. <br/>
              Toutes ces personnes travaillent au CESI de Mont-Saint-Aignan. Si l'objet mis en vitrine par une autre personne vous intéresse, vous trouverez des informations pour la contacter dans son profil. <br/> 
              Pour accéder aux services du site, une inscription est requise. <br />
-             Pour s'inscrire, <a class="lien" href="http://localhost/ProjetCESI/inscription.php"> cliquez-ici </a>.<br/>
+             Cliquez sur ce lien pour vous inscrire : <a class="lien" href="http://localhost/ProjetCESI/inscription.php"> Inscription </a>.<br/>
              Bonne journée! 
 
             <?php
@@ -64,7 +74,7 @@ $_SESSION['cotelephone'] = $utilisateur['utitelephone'];
             ?>            
         </div>    
 
-         <script src="lib/js/jquery.min.js"></script>
+        <script src="lib/js/jquery.min.js"></script>
         <script src="lib/js/popper.min.js"></script>
         <script src="lib/js/bootstrap.min.js"></script>
     </body>

@@ -193,7 +193,7 @@ else
 		$_SESSION['erreurpass'] = 'Le champs doit faire entre 4 et 16 caractères';
 	}
 
-	if (verifVerif($verifpass) == false)
+	if (verifVerif($verifpass) == true)
 	{
 		$_SESSION['erreurverif'] = 'Erreur sur la vérification du mot de passe';
 	}	

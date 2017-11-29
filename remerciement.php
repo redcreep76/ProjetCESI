@@ -20,13 +20,28 @@ session_start();
 		 <?php
     	 include('sql/database.php');
     	 include('inc/header.php');
-         ?>
+         
+          if(isset($_SESSION['prenom']))
+            { ?>
          <div class ="container col-8-xs col-md-8 col-lg-8 text-center taille">
          	
          	<div class="col-xs-offset-2 col-12-xs col-md-12 col-lg-12 ">
-         	<p class="borders">Merci de vous êtes inscrit <?php echo $_SESSION['prenom']; ?>! N'attendez plus ,<a href="http://localhost/ProjetCESI/connexion.php" class ="fotext">connectez-vous</a> et profitez de tous les avantages que ce site vous offre.<br/> Bonne journée! </p>	
+         	<p class="borders">Merci de vous êtes inscrit <?php echo $_SESSION['prenom']; ?> !<br/> N'attendez plus ,<a href="connexion.php" class ="fotext">connectez-vous</a> et profitez de tous les avantages que ce site vous offre.<br/> Bonne journée! </p>	
          	</div>
-        </div> 		
+            
+
+         </div>
+         <?php } 	
+        
+        else
+        { ?>
+         <div class ="container col-8-xs col-md-8 col-lg-8 text-center taille">
+            
+            <div class="col-xs-offset-2 col-12-xs col-md-12 col-lg-12 ">
+            <p class="borders">Vous ne devriez pas être sur cette page sans vous êtes inscrit avant. <a href="http://localhost/ProjetCESI/connexion.php" class ="fotext">Inscrivez-vous </a> et profitez de tous les avantages que ce site vous offre.<br/> Bonne journée! </p>   
+            </div>
+        <?php } ?>
+        </div>      	
 
 
 

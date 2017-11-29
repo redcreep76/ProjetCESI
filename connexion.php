@@ -14,7 +14,7 @@ $_SESSION['isconnected'] = 0 ;
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/connexion.css">
 
-        <title> Le Bon Cesi - Merci </title>
+        <title> Le Bon Cesi - Connexion </title>
 	</head>
 
 	<body>
@@ -25,7 +25,7 @@ $_SESSION['isconnected'] = 0 ;
 
 
           <div class ="container col-10-xs col-md-7 col-lg-5 text-center taille">
-            <div class ="col-12 yolo">
+            <div class ="col-12 banderol">
             Connectez-vous 
             <br/>
           

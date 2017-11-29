@@ -5,9 +5,9 @@
 	
 	padding-bottom: 4%;
 	padding-top:3%;
-	border: 3px inset cornflowerblue;
-
-	background-color: lightgrey;
+	
+	box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+	background-color: white;
 	font-weight: bold;
 	padding-left: 0px;
 	padding-right: 0px;
@@ -15,5 +15,10 @@
 
 .lien
 {
-  color : magenta;
+  color : darkblue;
+}
+
+.lien:hover
+{
+	color:red;
 }
