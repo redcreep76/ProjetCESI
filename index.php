@@ -11,9 +11,11 @@
         <title>Accueil</title>
     </head>
     <body>
-        <?php include("./sql/database.php"); ?>
+        <?php
+        session_start();
+        include("sql/database.php"); ?>
 
-        <?php include("./inc/header.php"); ?>
+        <?php include("inc/header.php"); ?>
 
         <div class="container" id="tab-content">
 

@@ -15,6 +15,9 @@
             $sql = file_get_contents('sql/debug.sql', FILE_USE_INCLUDE_PATH);
             $pdo->exec($sql);
         ?>
-        <h1 class="text-center my-5">Jeux de données générées avec succès.</h1>
+        <div class="text-center">
+            <h1 class="my-5">Jeux de données générées avec succès.</h1>
+            <a href="index.php"><button class="btn btn-danger">Retour</button></a>
+        </div>
     </body>
 </html>

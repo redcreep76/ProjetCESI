@@ -8,77 +8,156 @@
         <link rel="stylesheet" href="lib/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/inscription.css">
         <link rel="stylesheet" href="css/header.css">
-        <script type="text/javascript" src="./js/inscription.js"></script>
-
-
-
         <title>Inscription - Cesi Coin</title>
     </head>
 
-
-
     <body>
-    	 <?php
-    	 include('sql/database.php');
-    	 include('inc/header.php');
+        <?php
+            session_start();
+            include('sql/database.php');
+
+            if (isset($_SESSION['user'])) {
+                header('Location: index.php');
+            }
+
+            $regexName = "^[a-zA-Zàáâäçèéêëìíîïñòóôöùúûü\s\-]{3,30}$";
+            $regexEmail = "^[\w\-\.]+@[\w\-\.]+\.[\w\-]{2,4}$";
+            $regexPassword = "^[.\S]{4,16}$";
+            $regexPhone = "^0[1-9]([\-\.\s]?[0-9]{2}){4}$";
+            $invalidClass = "input-invalid";
+            $nom = (isset($_POST['nom']) ? $_POST['nom'] : "");
+            $prenom = (isset($_POST['prenom']) ? $_POST['prenom'] : "");
+            $email = (isset($_POST['email']) ? $_POST['email'] : "");
+            $telephone = (isset($_POST['telephone']) ? $_POST['telephone'] : "");
+            $password = (isset($_POST['password']) ? $_POST['password'] : "");
+            $confirmation = (isset($_POST['confirmation']) ? $_POST['confirmation'] : "");
+
+            if (isset($_POST['submit'])) {
+                $req = $pdo->prepare('SELECT ID_UTILISATEUR FROM T_UTILISATEUR WHERE UTI_EMAIL = :email');
+                $req->bindParam(':email', $_POST['email']);
+                $req->execute();
+
+                $error = array();
+
+                if (!preg_match('/'.$regexName.'/', $_POST['nom'])) {
+                    $error['nom'] = 'Votre nom doit faire entre 3 et 30 caractères et ne peux pas contenir de caractères spéciaux.';
+                }
+
+                if (!preg_match('/'.$regexName.'/', $_POST['prenom'])) {
+                    $error['prenom'] = 'Votre prénom doit faire entre 3 et 30 caractères et ne peux pas contenir de caractères spéciaux.';
+                }
+
+                if (!preg_match('/'.$regexEmail.'/', $_POST['email'])) {
+                    $error['email'] = 'Votre adresse mail est invalide.';
+                } else  if ($req->rowCount() > 0) {
+                    $error['email'] = 'Cette adresse mail est déjà enregistrée.';
+                }
+
+                if ((!empty($_POST['telephone'])) && (!preg_match('/'.$regexPhone.'/', $_POST['telephone']))) {
+                    $error['telephone'] = 'Votre numéro de téléphone est invalide.';
+                }
+
+                if (!preg_match('/'.$regexPassword.'/', $_POST['password'])) {
+                    $error['password'] = 'Votre mot de passe doit contenir entre 4 et 16 caractères et ne peux pas contenir d\'espace';
+                }
+
+                if ($_POST['confirmation'] !=  $_POST['password']) {
+                    $error['confirmation'] = 'Votre confirmation de mot de passe et votre mot de passe ne correspondent pas.';
+                }
+
+                if (empty($error)) {
+                    $req = $pdo->prepare('INSERT INTO T_UTILISATEUR (UTI_PRENOM, UTI_NOM, UTI_MDP, UTI_EMAIL) VALUES (:prenom, :nom, SHA2(:mdp, 256), :email)');
+                    $req->bindParam(':prenom', $_POST['prenom']);
+                    $req->bindParam(':nom', $_POST['nom']);
+                    $req->bindParam(':mdp', $_POST['password']);
+                    $req->bindParam(':email', $_POST['email']);
+                    $req->execute();
+                    $_SESSION['logged'] = time();
+                    header('Location: index.php');
+                }
+            }
+
+            include('inc/header.php');
+        ?>
+
+    	<div class ="container py-5">
+            <div class="row">
+                <div class="col-8 mx-auto py-5 panel">
+                    <h2 class="text-center">Formulaire d'Inscription</h2>
+
+                    <?php if (!empty($error)) { ?>
+                        <div class="alert alert-danger pt-4 my-5">
+                            <p class="mb-2"><strong>Les erreurs suivantes sont survenues :</strong></p>
+                            <ul>
+                                <?php foreach ($error as $msg) { ?>
+                                    <li><?php echo $msg; ?></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+                    <form method="post">
+                        <div class="col-12 d-flex justify-content-around py-1">
+                            <div class="form-group col-5">
+                                <label class="h6 form-label" for="nom">Nom <sup class="text-danger h6">*</sup></label>
+                                <input type="text" name="nom" class="form-control <?php if (isset($error['nom'])) echo $invalidClass; ?>" value="<?php echo $nom; ?>" oninput="verifPattern(this, '<?php echo str_replace('\\', '\\\\', $regexName); ?>');" id="nom" required />
+                            </div>
+
+                            <div class="form-group col-5">
+                                <label class="h6 form-label" for="prenom">Prénom <sup class="text-danger h6">*</sup></label>
+                                <input type="text" name="prenom" class="form-control <?php if (isset($error['prenom'])) echo $invalidClass; ?>"  value="<?php echo $prenom; ?>" oninput="verifPattern(this, '<?php echo str_replace('\\', '\\\\', $regexName); ?>');" id="prenom" required />
+                            </div>
+                        </div>
 
 
-         if (!empty($_SESSION['erreur'])) {
-              die ($_SESSION['erreur']['prenom']['param']);
-         }
 
+                        <div class="col-12 d-flex justify-content-around py-1">
+                            <div class="form-group col-5">
+                                <label class="h6 form-label" for="email">Adresse Mail <sup class="text-danger h6">*</sup></label>
+                                <input type="email" name="email" class="form-control <?php if (isset($error['email'])) echo $invalidClass; ?>" value="<?php echo $email; ?>" oninput="verifPattern(this, '<?php echo str_replace('\\', '\\\\', $regexEmail); ?>');" id="email" required />
+                            </div>
 
-         		 ?>
-    	<div class ="container col-8-xs col-md-8 col-lg-8 text-center">
-    		<form method="post"  action ="traitementinscription.php">
-    			<p class ="titre text-center"><strong><span class="titreform"> Formulaire d'inscription </span></strong> </p>
-		    	<div class="row text-center ">
-		    			<div class="col-12-xs ">
-		    			</div>
+                            <div class="form-group col-5">
+                                <label class="h6 form-label" for="telephone">Numéro de Téléphone</label>
+                                <input type="tel" name="telephone" class="form-control <?php if (isset($error['telephone'])) echo $invalidClass; ?>" value="<?php echo $telephone; ?>" oninput="verifPattern(this, '<?php echo str_replace('\\', '\\\\', $regexPhone); ?>');" id="telephone" />
+                            </div>
+                        </div>
 
+                        <div class="col-12 d-flex justify-content-around py-1">
+                            <div class="form-group col-5">
+                                <label class="h6 form-label" for="password">Mot de Passe <sup class="text-danger h6">*</sup></label>
+                                <input type="password" name="password" class="form-control <?php if (isset($error['password'])) echo $invalidClass; ?>" value="<?php echo $password; ?>" oninput="verifPassword(this, confirmation, '<?php echo str_replace('\\', '\\\\', $regexPassword); ?>');" id="password" required />
+                            </div>
 
-			    				<div class="col-6-xs col-md-6 col-lg-6 espace ligne">
+                            <div class="form-group col-5">
+                                <label class="h6 form-label" for="confirmation">Confirmation du Mot de Passe <sup class="text-danger h6">*</sup></label>
+                                <input type="password" name="confirmation" class="form-control <?php if (isset($error['confirmation'])) echo $invalidClass; ?>" value="<?php echo $confirmation; ?>" oninput="verifPassword(password, this, '<?php echo str_replace('\\', '\\\\', $regexPassword); ?>');" id="confirmation" required />
+                            </div>
+                        </div>
 
+                        <div class="col-12 text-center pt-4">
+                            <div class="form-check h6">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" required>
+                                    Je certifie être un salarié appartenant au CESI.
+                                </label>
+                            </div>
+                            <p class="text-danger h6">
+                                Les champs accompagnés d'une étoile sont obligatoires
+                            </p>
 
-				    					<label for = "prenom"><strong> Prénom *: </strong></label>
-				                            <p><input type="text"  name="prenom" placeholder="Ex: Valentin" id="prenom" onblur="verifPrenom(this)" value="<?php if (!empty($_SESSION['erreur']['prenom'])) echo $_SESSION['erreur']['prenom']['param']; ?>" required></p>
-                                            <span class="colorerreur"><?php if(!(empty($_SESSION['erreur']['prenom'])) ){ echo ($_SESSION['erreur']['prenom']['msg']);echo '<br>';}else{echo '<br>';}?></span><br/>
+                            <button type="submit" name="submit" class="btn btn-lg btn-primary mt-3">Valider</button>
+                        </div>
+                    </form>
 
-				                        <label for = "nom"><strong> Nom *: </strong></label>
-				                            <p><input type="text"  name="nom" placeholder="Ex: Brouillaud" id="nom"  onblur="verifNom(this)"  value="<?php if(isset($_COOKIE['nom'])) echo $_COOKIE['nom']; ?>" required></p><span class="colorerreur"> <?php if(!(empty($_SESSION['erreurnom'])) ){echo ($_SESSION['erreurnom']);echo '<br>';}else{echo '<br>';}?></span><br/>
+                </div>
 
-
-				    					<label for= "pass"><strong> Mot de passe *: </strong></label>
-				                            <p><input type="password"  name="pass" id="pass" onblur="verifMdp(this)"  required></p><span class="colorerreur"><?php if(!(empty($_SESSION['erreurpass'])) ){echo ($_SESSION['erreurpass']);echo '<br>';}?></span><br/>
-			                    </div>
-
-			                    <div class ="col-6-xs col-md-6 col-lg-6 espace">
-
-			                        <label for = "verifpass"><strong> Vérification de mot de passe *: </strong></label>
-			                        	<p><input type="password" name="verifpass" id="verifpass" onblur="verifVerif(this,pass)" required></p><span class="colorerreur"><?php if(!(empty($_SESSION['erreurverif'])) ){echo ($_SESSION['erreurverif']);echo '<br>';}else{echo '<br>';}?></span><br/>
-
-			                        <label for = "email"><strong> Adresse e-mail *: </strong></label>
-			                            <p><input type="email" name="email" id="email" placeholder="adresse@viacesi.fr" onblur="verifEmail(this)" value="<?php if(isset($_COOKIE['email'])) echo $_COOKIE['email']; ?>"  required></p><span class="colorerreur"><?php if(!(empty($_SESSION['erreuremail'])) ){echo ($_SESSION['erreuremail']);echo '<br>';}else{echo '<br>';}?></span><br/>
-
-			                        <label for = "telephone"><strong> Numéro de téléphone : </strong></label>
-			                        	<p><input type="tel" name="telephone" placeholder="06 06 ** ** **" id="telephone" onblur="verifTelephone(this)" value="<?php if(isset($_COOKIE['telephone'])) echo $_COOKIE['telephone']; ?>"><span class="colorerreur"><?php if(!(empty($_SESSION['erreurtelephone'])) ){echo '<br>';echo '<br>';echo ($_SESSION['erreurtelephone']);echo '<br>';}?></span></p>
-
-		                    	</div>
-
-	        	</div>
-	        	<br/><br/><p class="text-center taille"><input type="checkbox"  name="cesi" id="cesi" required><label for = "cesi">&nbsp;&nbsp; <strong> Je certifie être un salarié appartenant au CESI.</strong></label><br/>
-	        		<span class ="petit">Les champs accompagnés du symbole * sont obligatoires </span><br/><br/>
-	        	<input type= "submit" class="bouton" name="valider" value="Valider" id="validation"></p>
-	        </form>
+            </div>
 	    </div>
-
-	    <?php
-	    	unset($_SESSION['erreur']);
-	    ?>
 
     	<script src="lib/js/jquery.min.js"></script>
         <script src="lib/js/popper.min.js"></script>
         <script src="lib/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/inscription.js"></script>
     </body>
 
     <footer>

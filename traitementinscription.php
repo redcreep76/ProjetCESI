@@ -1,111 +1,60 @@
 <?php
-
+    session_start();
     include('sql/database.php');
-    //Créer des constantes pour la taille minimale et maximale des champs ?
-    $prenom = $_POST['prenom'];
-    $nom = $_POST['nom'];
-    $telephone = $_POST['telephone'];
-    $pass = $_POST['pass'];
-    $verifpass = $_POST['verifpass'];
-    $email = $_POST['email'];
-    $erreur = 0;
-
-    $_SESSION['prenom'] = $_POST['prenom'];
-
 
     $req = $pdo->prepare('SELECT ID_UTILISATEUR FROM T_UTILISATEUR WHERE UTI_EMAIL = :email');
     $req->bindParam(':email', $_POST['email']);
     $req->execute();
 
+    $_SESSION['value'] = array(
+        "prenom" => $_POST['prenom'],
+        "nom" => $_POST['nom'],
+        "telephone" => $_POST['telephone'],
+        "email" => $_POST['email'],
+        "password" => $_POST['password'],
+        "confirmation" => $_POST['confirmation']
+    );
 
     $_SESSION['erreur'] = array();
 
-    if (verifNom($prenom) == false) {
-        $_SESSION['erreur']['prenom'] = array(
-            'param' => $prenom,
-            'msg' => 'Le champs doit faire entre 2 et 25 caractères'
-        );
+    if (!preg_match('/^[a-zA-Zàáâäçèéêëìíîïñòóôöùúûü\s\-]{3,30}$/', $_POST['nom'])) {
+        $_SESSION['erreur']['nom'] = 'Votre nom doit faire entre 3 et 30 caractères et ne peux pas contenir de caractères spéciaux.';
     }
 
-    if (verifNom($nom) == false)
-    {
-        $_SESSION['erreurnom'] = 'Le champs doit faire entre 2 et 25 caractères';
+    if (!preg_match('/^[a-zA-Zàáâäçèéêëìíîïñòóôöùúûü\s\-]{3,30}$/', $_POST['prenom'])) {
+        $_SESSION['erreur']['prenom'] = 'Votre prénom doit faire entre 3 et 30 caractères et ne peux pas contenir de caractères spéciaux.';
     }
 
-    if (verifMdp($pass) == false)
-    {
-        $_SESSION['erreurpass'] = 'Le champs doit faire entre 4 et 16 caractères';
+    if (!preg_match('/^[\w\-\.]+@[\w\-\.]+\.[\w\-]{2,4}$/', $_POST['email'])) {
+        $_SESSION['erreur']['email'] = 'Votre adresse mail est invalide.';
+    } else  if ($req->rowCount() > 0) {
+        $_SESSION['erreur']['email'] = 'Cette adresse mail est déjà enregistrée.';
     }
 
-    if (verifVerif($verifpass, $pass) == false)
-    {
-        $_SESSION['erreurverif'] = 'Erreur sur la vérification du mot de passe';
+    if ((!empty($_POST['telephone'])) && (!preg_match('/^0[1-9]([\-\.\s]?[0-9]{2}){4}$/', $_POST['telephone']))) {
+        $_SESSION['erreur']['telephone'] = 'Votre numéro de téléphone est invalide.';
     }
 
-    if (verifEmail($email) == false)
-    {
-        $_SESSION['erreuremail'] = 'Adresse email invalide.';
-    }
-    else if ($req->rowCount > 0)
-    {
-        $_SESSION['erreuremail'] = 'Adresse email indisponible';
+    if (!preg_match('/^[.\S]{4,16}$/', $_POST['password'])) {
+        $_SESSION['erreur']['password'] = 'Votre mot de passe doit contenir entre 4 et 16 caractères et ne peux pas contenir d\'espace';
     }
 
-    if (verifTelephone($telephone) == false)
-    {
-        $_SESSION['erreurtelephone'] = 'Numéro de téléphone invalide';
+    if ($_POST['confirmation'] !=  $_POST['password']) {
+        $_SESSION['erreur']['confirmation'] = 'Votre confirmation de mot de passe et votre mot de passe ne correspondent pas.';
     }
 
     if (empty($_SESSION['erreur'])) {
         unset($_SESSION['erreur']);
-        $req = $bdd->prepare('INSERT INTO T_UTILISATEUR (UTI_PRENOM, UTI_NOM, UTI_MDP, UTI_EMAIL) VALUES (:prenom, :nom, :mdp, :email)');
+        unset($_SESSION['value']);
+        $req = $pdo->prepare('INSERT INTO T_UTILISATEUR (UTI_PRENOM, UTI_NOM, UTI_MDP, UTI_EMAIL) VALUES (:prenom, :nom, :mdp, :email)');
         $req->bindParam(':prenom', $_POST['prenom']);
         $req->bindParam(':nom', $_POST['nom']);
-        $req->bindParam(':mdp', $_POST['pass']);
+        $req->bindParam(':mdp', crypt($_POST['password'], CRYPT_SHA256));
         $req->bindParam(':email', $_POST['email']);
-        $req->execut();
+        $req->execute();
         $_SESSION['logged'] = time();
         header('Location: remerciement.php');
     } else {
-        //die($_SESSION['erreur']['prenom']['param']);
         header('Location: inscription.php');
-    }
-
-    function verifNom($champs) {
-        if ((strlen($champs) > 2) && (strlen($champs) < 25))	{
-            return true;
-        }
-        return false;
-    }
-
-    function verifMdp($champs) {
-        if ((strlen($champs) > 4) || (strlen($champs) > 25)) {
-                return true;
-        }
-        return false;
-    }
-
-    function verifEmail($champs) {
-        if ((strlen($champs) > 0) && (preg_match("/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/", $champs))) {
-            return true;
-        }
-        return false;
-    }
-
-    function verifTelephone($champs) {
-        if(strlen($champs) > 0) {
-            if (preg_match("/^0[1-9]([-. ]?[0-9]{2}){4}$/", $champs)) {
-                return true;
-            }
-            return false;
-        }
-        return true;
-    }
-
-    function verifVerif($verifpass,$pass) {
-        if($verifpass == $pass) {
-                return true;
-        }
-        return false;
     }
 ?>

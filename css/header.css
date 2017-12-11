@@ -83,6 +83,15 @@
     background-color: #394988;
 }
 
+#navbar .user-icon {
+	height: 40px;
+	min-width: 1px;
+}
+
+#navbar .user-icon img {
+	height: 100%;
+}
+
 #navbar .navbar-toggle .icon-bar {
     background-color: #fff;
 }

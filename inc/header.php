@@ -35,19 +35,37 @@
 
     <div class="ml-auto d-flex flex-row order-2 align-items-center order-lg-3">
         <div class="dropdown">
-          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user fa-lg mr-2" aria-hidden="true"></i>Connexion
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <?php if (isset($_SESSION['user'])) {
+                $query = $pdo->prepare('SELECT ID_UTILISATEUR, UTI_NOM, UTI_PRENOM, UTI_IMAGE FROM T_UTILISATEUR WHERE ID_UTILISATEUR = :id');
+                $query->bindParam(':id', $_SESSION['user']);
+                $query->execute();
+                $res = $query->fetch();
+            ?>
+                <button class="btn btn-light dropdown-toggle d-flex align-items-center pl-0 py-0" type="button" id="dropdownUserButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-              <?php if((isset($_SESSION['isconnected'])) && ($_SESSION['isconnected'] == 1)) { ?>
-                  <a class="nav-link">Connexion</a>
-              <?php } else { ?>
-                  <a class="dropdown-item" href="inscription.php">S'inscrire</a>
-                  <a class="dropdown-item" href="connexion.php">Se connecter</a>
+                        <img src="assets/<?php echo (strlen($res['UTI_IMAGE']) > 0 ? 'profil/'.$res['UTI_IMAGE'] : 'img/user-icon.png');?>" class="bg-white rounded user-icon" />
 
-              <?php } ?>
-          </div>
+                    <span class="ml-3 mr-2"><?php echo $res['UTI_PRENOM']; ?> <?php echo $res['UTI_NOM']; ?></span>
+                </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownUserButton">
+                    <a class="dropdown-item" href="#">Publier une annonce</a>
+                    <a class="dropdown-item" href="profil.php">Mon profil</a>
+                    <a class="dropdown-item" href="#">Mon historique</a>
+                    <a class="dropdown-item" href="deconnection.php">Se déconnecter</a>
+                </div>
+
+            <?php } else { ?>
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLoginButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+
+                  <i class="fa fa-user fa-lg mr-2" aria-hidden="true"></i>Connexion
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownLoginButton">
+                    <a class="dropdown-item" href="inscription.php">S'inscrire</a>
+                    <a class="dropdown-item" href="connexion.php">Se connecter</a>
+                </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -58,9 +76,9 @@
     <div class="collapse navbar-collapse order-3 order-lg-2" id="navbarToggler">
         <ul class="navbar-nav pb-3 pb-lg-0">
             <?php
-                foreach ($pdo->query('SELECT ID_CATEGORIE, CAT_LIBELLE FROM T_CATEGORIE ORDER BY ID_CATEGORIE ASC')->fetchAll() as $row) { ?>
+                foreach ($pdo->query('SELECT ID_CATEGORIE, CAT_LIBELLE FROM T_CATEGORIE ORDER BY ID_CATEGORIE ASC')->fetchAll() as $res) { ?>
                 <li class="nav-item pt-1">
-                    <a class="nav-link py-1 py-lg-0 px-3" href="#"><span class="navbar-text py-0 px-1"><?php echo $row['CAT_LIBELLE']; ?></span></a>
+                    <a class="nav-link py-1 py-lg-0 px-3" href="#"><span class="navbar-text py-0 px-1"><?php echo $res['CAT_LIBELLE']; ?></span></a>
                 </li>
             <?php } ?>
         </ul>

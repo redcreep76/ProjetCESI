@@ -1,33 +1,23 @@
-.taille
-{
-	margin-top: 7%;
-	margin-bottom: 20%;
-	
-	padding-bottom: 4%;
-	border: 3px inset cornflowerblue;
-
-	background-color: lightgrey;
-	font-weight: bold;
-	padding-left: 0px;
-	padding-right: 0px;
+body {
+  	max-width: 100%;
+  	background-color: #eee;
 }
 
-.yolo
-{
-	
-	background-color: slategrey;
+.panel {
+    background: white;
+    margin: 8px 5px;
+    padding: 16px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.1);
 }
 
-.petit
-{
-	color:steelblue;
-	font-size: 10px;
-	text-decoration: underline;
+.form-control {
+    background: #f9f9f9;
 }
 
-.messageerreur
-{
-	font-size: 12px;
-	font-weight: bold;
-	color:red;
+.form-control.input-invalid {
+    border-color: #ff9b9b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
 }
